@@ -1,0 +1,22 @@
+# Test events for the replay mode of src/streaming/producer.py.
+# _lag_s: the event timestamp is set to "now - _lag_s"; _pause_before_s: wait before sending.
+# Batch 1: on-time events (most match the watchlist, some must be filtered out)
+{"_lag_s": 30, "type": "edit", "namespace": 0, "title": "Inception", "wiki": "enwiki", "user": "TestUserA", "bot": false, "length": {"old": 120000, "new": 120150}, "meta": {"id": "test-0001", "domain": "en.wikipedia.org"}}
+{"_lag_s": 25, "type": "edit", "namespace": 0, "title": "Oppenheimer (film)", "wiki": "enwiki", "user": "TestUserB", "bot": false, "length": {"old": 98000, "new": 98020}, "meta": {"id": "test-0002", "domain": "en.wikipedia.org"}}
+{"_lag_s": 20, "type": "edit", "namespace": 0, "title": "Tom Hanks", "wiki": "enwiki", "user": "TestUserC", "bot": false, "length": {"old": 87000, "new": 86900}, "meta": {"id": "test-0003", "domain": "en.wikipedia.org"}}
+{"_lag_s": 15, "type": "edit", "namespace": 0, "title": "Greta Gerwig", "wiki": "enwiki", "user": "TestUserA", "bot": false, "length": {"old": 54000, "new": 54100}, "meta": {"id": "test-0004", "domain": "en.wikipedia.org"}}
+{"_lag_s": 10, "type": "edit", "namespace": 0, "title": "Cillian Murphy", "wiki": "enwiki", "user": "TestBot", "bot": true, "length": {"old": 61000, "new": 61005}, "meta": {"id": "test-0005", "domain": "en.wikipedia.org"}}
+# Same event delivered twice: must be counted once (deduplication)
+{"_lag_s": 10, "type": "edit", "namespace": 0, "title": "Cillian Murphy", "wiki": "enwiki", "user": "TestBot", "bot": true, "length": {"old": 61000, "new": 61005}, "meta": {"id": "test-0005", "domain": "en.wikipedia.org"}}
+# Must be filtered out: talk page, other language, unrelated qualifier, unknown page, log event
+{"_lag_s": 10, "type": "edit", "namespace": 1, "title": "Talk:Inception", "wiki": "enwiki", "user": "TestUserD", "bot": false, "length": {"old": 5000, "new": 5100}, "meta": {"id": "test-0006", "domain": "en.wikipedia.org"}}
+{"_lag_s": 10, "type": "edit", "namespace": 0, "title": "Inception", "wiki": "frwiki", "user": "TestUserE", "bot": false, "length": {"old": 30000, "new": 30010}, "meta": {"id": "test-0007", "domain": "fr.wikipedia.org"}}
+{"_lag_s": 10, "type": "edit", "namespace": 0, "title": "Inception (album)", "wiki": "enwiki", "user": "TestUserF", "bot": false, "length": {"old": 3000, "new": 3050}, "meta": {"id": "test-0008", "domain": "en.wikipedia.org"}}
+{"_lag_s": 10, "type": "edit", "namespace": 0, "title": "Photosynthesis", "wiki": "enwiki", "user": "TestUserG", "bot": false, "length": {"old": 70000, "new": 70040}, "meta": {"id": "test-0009", "domain": "en.wikipedia.org"}}
+{"_lag_s": 5, "type": "log", "namespace": 0, "title": "Tom Hanks", "wiki": "enwiki", "user": "TestUserH", "bot": false, "meta": {"id": "test-0010", "domain": "en.wikipedia.org"}}
+# Batch 2, sent after a pause so the watermark has moved forward
+{"_pause_before_s": 90, "_lag_s": 0, "type": "edit", "namespace": 0, "title": "The Godfather", "wiki": "enwiki", "user": "TestUserA", "bot": false, "length": {"old": 110000, "new": 110200}, "meta": {"id": "test-0011", "domain": "en.wikipedia.org"}}
+# 3 minutes late: inside the 10-minute watermark -> kept
+{"_lag_s": 180, "type": "edit", "namespace": 0, "title": "Barbie (film)", "wiki": "enwiki", "user": "TestUserB", "bot": false, "length": {"old": 140000, "new": 140300}, "meta": {"id": "test-0012", "domain": "en.wikipedia.org"}}
+# 25 minutes late: older than the watermark -> dropped
+{"_lag_s": 1500, "type": "edit", "namespace": 0, "title": "Titanic (1997 film)", "wiki": "enwiki", "user": "TestUserC", "bot": false, "length": {"old": 150000, "new": 150100}, "meta": {"id": "test-0013", "domain": "en.wikipedia.org"}}
