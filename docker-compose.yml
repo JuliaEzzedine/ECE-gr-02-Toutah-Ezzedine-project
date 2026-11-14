@@ -7,6 +7,7 @@ services:
     environment:
       SPARK_DRIVER_MEMORY: ${SPARK_DRIVER_MEMORY:-4g}
       KAFKA_BOOTSTRAP: kafka:9092
+      WIKI_CONTACT: ${WIKI_CONTACT:-ece-big-data-project@example.com}
     ports:
       - "4040:4040"   # Spark UI while a job runs
     stdin_open: true
