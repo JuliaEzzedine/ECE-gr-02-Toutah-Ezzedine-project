@@ -1,68 +1,68 @@
-\# IMDb Big Data Processing — Report
+# IMDb Big Data Processing - Report
 
 
 
-\## 1. Data preparation
+## 1. Data preparation
 
 
 
-\### 1.1 Missing values per column
+### 1.1 Missing values per column
 
-<!-- coller le tableau de outputs/null\_report.md -->
-
-
-
-\### 1.2 Top 5 columns with the most missing values
-
-<!-- coller le top 5 de outputs/null\_report.md -->
+<!-- coller le tableau de outputs/null_report.md -->
 
 
 
-\### 1.3 Other data quality issues
+### 1.2 Top 5 columns with the most missing values
 
-<!-- coller le tableau de outputs/quality\_report.md -->
-
-
-
-\### 1.4 Methodological explanation
-
-\#### Methodology and why it was chosen
-
-\#### Alternatives considered and trade-offs
+<!-- coller le top 5 de outputs/null_report.md -->
 
 
 
-\## 2. Data exploration
+### 1.3 Other data quality issues
 
-<!-- Talia -->
-
-
-
-\## 3. Data enrichment
+<!-- coller le tableau de outputs/quality_report.md -->
 
 
 
-\### 3.1 Results
+### 1.4 Methodological explanation
 
-<!-- coller outputs/enrichment\_summary.md (couverture, statuts, exemple) -->
+#### Methodology and why it was chosen
 
-
-
-\### 3.2 Methodological explanation
-
-\#### Methodology and why it was chosen
-
-\#### Alternatives considered and trade-offs
+#### Alternatives considered and trade-offs
 
 
 
-\## 4. Streaming
+## 2. Data exploration
 
 <!-- Talia -->
 
 
 
-\## 5. Open question
+## 3. Data enrichment
+
+
+
+### 3.1 Results
+
+<!-- coller outputs/enrichment_summary.md (couverture, statuts, exemple) -->
+
+
+
+### 3.2 Methodological explanation
+
+#### Methodology and why it was chosen
+
+#### Alternatives considered and trade-offs
+
+
+
+## 4. Streaming
+
+<!-- Talia -->
+
+
+
+## 5. Open question
 
 <!-- ensemble -->
 
