@@ -18,7 +18,29 @@
 
 #### Methodology and why it was chosen
 
+We first converted the seven IMDb files into Parquet format, keeping all columns as text in the bronze layer. We chose this approach to avoid losing information during conversion. For example, if `startYear` contains an invalid value like `abc`, converting it directly into a number would turn it into NULL, making it harder to identify and count the original error.
+
+To measure missing values, we checked each column for three cases: `\N` (IMDb's way of indicating unknown values), empty strings, and missing fields caused by incomplete rows. We also counted invalid text in numeric columns separately. These checks were performed in a single Spark pass per table. The percentage of missing values was calculated by dividing the total number of unknown, empty, and absent values by the number of rows. We kept these categories separate because they can have different causes.
+
+We also looked for other data quality issues, such as people who died before they were born, people born after a movie's release, missing foreign key references, duplicate records, invalid ratings outside the 1–10 range, unrealistic movie durations, inconsistent start and end years, and episodes referencing themselves as their parent series.
+
+We handled these issues in three different ways depending on their severity. First, unusable records, such as orphan records, duplicates, or impossible ratings, were moved to a separate quarantine folder instead of being permanently deleted. Malformed rows with missing fields were also excluded from the silver tables. However, for columns containing lists of identifiers, such as `knownForTitles`, `directors`, and `writers`, we only removed the invalid references from the lists instead of quarantining the entire record.
+
+Second, when only a specific value was incorrect, we replaced it with NULL while keeping the rest of the record. For example, if a person's death year was earlier than their birth year, we set both dates to NULL because we could not know which one was incorrect.
+
+Finally, we added `dq_*` flags for unusual values that might still be valid, such as future movie releases, very long experimental films, or posthumous releases. This allows us to keep the data while letting later analyses decide whether to include these records.
+
+The final cleaned datasets form the silver layer, which is used for the following analyses.
+
 #### Alternatives considered and trade-offs
+
+We considered removing every record containing a data quality issue, but this would result in losing too much useful information. For example, an incorrect birth or death year should not cause us to lose a person's entire filmography.
+
+Another option was replacing missing values with averages or estimated values. However, we decided not to do this because it would introduce information that was not present in the original IMDb dataset.
+
+We also considered letting Spark automatically convert data types when reading the files. Although this would be simpler, invalid values could become NULL without being clearly identified, making data quality problems harder to detect.
+
+The main disadvantage of our approach is that it requires more storage and processing. We need additional columns for the `dq_*` flags and separate tables for quarantined records. Also, checking foreign key relationships requires joins between large datasets, which can increase processing time. Finally, later analyses need to take the quality flags into account to avoid including potentially problematic values.
 
 ## 2. Data exploration
 
