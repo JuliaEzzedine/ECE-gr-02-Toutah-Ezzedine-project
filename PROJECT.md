@@ -42,7 +42,12 @@ docker compose run --rm spark python -m src.prep.ingest
 
 # Percentage of null / missing / empty values per column -> outputs/null_report.md
 docker compose run --rm spark python -m src.prep.null_report
+
+# Data quality checks + handling -> data/silver/, data/quarantine/, outputs/quality_report.md
+docker compose run --rm spark python -m src.prep.quality
 ```
+
+All later batch steps read the cleaned tables from `data/silver/`.
 
 ## 2. Data exploration
 
@@ -50,7 +55,26 @@ TODO
 
 ## 3. Data enrichment
 
-TODO
+Requires the silver tables from step 1. Data is collected from Wikidata (to find the
+English Wikipedia article of an IMDb id) and English Wikipedia (synopsis = "Plot"
+section, biography = article introduction).
+
+```bash
+# Select the top 10 feature films per genre and year (1980-2025) and their first 3 principals
+docker compose run --rm spark python -m src.enrich.targets
+
+# Scrape Wikidata + Wikipedia (about 1 h, polite: one request at a time, >= 0.5 s apart).
+# Set a contact email for the User-Agent required by the Wikimedia API policy.
+# PowerShell:  $env:WIKI_CONTACT="you@school.fr"     bash:  export WIKI_CONTACT=you@school.fr
+docker compose run --rm spark python -m src.enrich.fetch_wikipedia
+
+# The scraper is resumable: if it is interrupted, run the same command again.
+# Quick test on 20 films / people only:
+#   docker compose run --rm spark python -m src.enrich.fetch_wikipedia --limit 20
+
+# Clean, enforce the schema and build the enriched tables -> data/enriched/, outputs/enrichment_summary.md
+docker compose run --rm spark python -m src.enrich.build
+```
 
 ## 4. Streaming
 
@@ -89,6 +113,7 @@ TODO
 | Tool | Used for |
 | --- | --- |
 | Claude (Anthropic) | Generating code for the Docker environment, the IMDb download script, the Parquet ingestion job and the null-value report (`Dockerfile`, `docker-compose.yml`, `src/common/`, `src/prep/download.py`, `src/prep/ingest.py`, `src/prep/null_report.py`) |
+| Claude (Anthropic) | Generating the data quality job (`src/prep/quality.py`) and the enrichment pipeline (`src/enrich/`): target selection, Wikidata/Wikipedia scraper, Spark build of the enriched tables |
 | Claude (Anthropic) | Generating the streaming code (`src/streaming/`): Kafka producer, watchlist builder, Spark Structured Streaming job, run summary and test events |
 
 No AI tool was used to write the explanations or reasoning in `REPORT.md`.
