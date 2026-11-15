@@ -115,5 +115,3 @@ TODO
 | Claude (Anthropic) | Generating code for the Docker environment, the IMDb download script, the Parquet ingestion job and the null-value report (`Dockerfile`, `docker-compose.yml`, `src/common/`, `src/prep/download.py`, `src/prep/ingest.py`, `src/prep/null_report.py`) |
 | Claude (Anthropic) | Generating the data quality job (`src/prep/quality.py`) and the enrichment pipeline (`src/enrich/`): target selection, Wikidata/Wikipedia scraper, Spark build of the enriched tables |
 | Claude (Anthropic) | Generating the streaming code (`src/streaming/`): Kafka producer, watchlist builder, Spark Structured Streaming job, run summary and test events |
-
-No AI tool was used to write the explanations or reasoning in `REPORT.md`.
