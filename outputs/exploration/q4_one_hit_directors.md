@@ -1,0 +1,61 @@
+## q4_one_hit_directors
+
+Feature films with >= 1000 votes. Exactly one film rated >= 8.0, and at least 2 other films whose average rating is <= 6.0.
+
+### Number of directors
+
+47 directors match.
+
+### Directors (first 50)
+
+| nconst     | primaryName         | hit_movie                                                             |   hit_year |   hit_rating |   other_movies |   other_avg_rating |
+|:-----------|:--------------------|:----------------------------------------------------------------------|-----------:|-------------:|---------------:|-------------------:|
+| nm6252943  | Harish Vyas         | Om Ka Hari                                                            |       2026 |          9.8 |              2 |               5.75 |
+| nm2735803  | Saurabh Varma       | The Great Punjab Robbery                                              |       2026 |          9.2 |              2 |               5.9  |
+| nm0449984  | Irvin Kershner      | Star Wars: Episode V - The Empire Strikes Back                        |       1980 |          8.7 |              9 |               5.94 |
+| nm0062614  | Harry Baweja        | Chaar Sahibzaade 2: Rise of Banda Singh Bahadur                       |       2016 |          8.6 |              6 |               5.3  |
+| nm0500896  | David Leland        | Concert for George                                                    |       2003 |          8.6 |              4 |               5.85 |
+| nm2259353  | Christopher Ashley  | Come from Away                                                        |       2021 |          8.5 |              2 |               5.6  |
+| nm0803350  | Sangeeth Sivan      | Yoddha                                                                |       1992 |          8.4 |              4 |               5.25 |
+| nm0846092  | Kamal Tabrizi       | The Lizard                                                            |       2004 |          8.4 |              4 |               5.53 |
+| nm16275551 | Sateesh Paramveda   | Seetha Kalyana Vaibhogame                                             |       2024 |          8.4 |              2 |               5.8  |
+| nm9511013  | Satish Paramvedha   | Seetha Kalyana Vaibhogame                                             |       2024 |          8.4 |              2 |               5.8  |
+| nm1703622  | R. Madhesh          | Mudhalvan                                                             |       1999 |          8.4 |              3 |               5.87 |
+| nm1318819  | Ezhil               | Thulladha Manamum Thullum                                             |       1999 |          8.3 |              2 |               4.55 |
+| nm0092632  | Carlos Bolado       | Promises                                                              |       2001 |          8.3 |              2 |               5.85 |
+| nm0890864  | P. Vasu             | Aapthamitra                                                           |       2004 |          8.2 |              5 |               5.24 |
+| nm1359360  | Dharani             | Ghilli                                                                |       2004 |          8.2 |              5 |               5.44 |
+| nm0796117  | M. Night Shyamalan  | The Sixth Sense                                                       |       1999 |          8.2 |             15 |               5.87 |
+| nm5650589  | Nalan Kumarasamy    | Soodhu Kavvum                                                         |       2013 |          8.2 |              2 |               5.95 |
+| nm8678191  | Karthick Naren      | Dhuruvangal Pathinaaru                                                |       2016 |          8.1 |              2 |               5.15 |
+| nm0536705  | Ananth Mahadevan    | Phule                                                                 |       2025 |          8.1 |              4 |               5.15 |
+| nm1084488  | Umesh Shukla        | OMG: Oh My God!                                                       |       2012 |          8.1 |              6 |               5.6  |
+| nm1434372  | Johny Antony        | C.I.D. Moosa                                                          |       2003 |          8.1 |              2 |               5.8  |
+| nm2134474  | Vikas Bahl          | Queen                                                                 |       2013 |          8.1 |              6 |               5.83 |
+| nm0853238  | Tate Taylor         | The Help                                                              |       2011 |          8.1 |              6 |               5.88 |
+| nm1729063  | Mert Baykal         | Pardon                                                                |       2005 |          8.1 |              3 |               5.9  |
+| nm6044360  | Ravikanth Perepu    | Kshanam                                                               |       2016 |          8.1 |              2 |               5.95 |
+| nm0574625  | James McTeigue      | V for Vendetta                                                        |       2005 |          8.1 |              4 |               5.98 |
+| nm0389514  | David Hogan         | Sign 'o' the Times                                                    |       1987 |          8   |              2 |               4.6  |
+| nm5120912  | Ajay Bahl           | Section 375                                                           |       2019 |          8   |              3 |               4.63 |
+| nm0149134  | Sinan Çetin         | Abbas in Flower                                                       |       1982 |          8   |              7 |               4.84 |
+| nm0002239  | Prince              | Sign 'o' the Times                                                    |       1987 |          8   |              2 |               4.9  |
+| nm0244892  | J.P. Dutta          | Border                                                                |       1997 |          8   |              4 |               5.33 |
+| nm0348015  | Gunasekhar          | Okkadu                                                                |       2003 |          8   |              6 |               5.38 |
+| nm0446819  | Richard Kelly       | Donnie Darko                                                          |       2001 |          8   |              2 |               5.45 |
+| nm1048560  | Marcus Raboy        | Conan O'Brien: The Kennedy Center Mark Twain Prize for American Humor |       2025 |          8   |              2 |               5.45 |
+| nm0761522  | Denis Sanders       | Elvis: That's the Way It Is                                           |       1970 |          8   |              2 |               5.6  |
+| nm0204628  | Garth Davis         | Lion                                                                  |       2016 |          8   |              2 |               5.65 |
+| nm0588340  | Frank Miller        | Sin City                                                              |       2005 |          8   |              2 |               5.65 |
+| nm0031342  | Predrag Antonijevic | Dara of Jasenovac                                                     |       2020 |          8   |              5 |               5.7  |
+| nm1749112  | Vincent Paronnaud   | Persepolis                                                            |       2007 |          8   |              3 |               5.7  |
+| nm0536299  | Albert Magnoli      | Sign 'o' the Times                                                    |       1987 |          8   |              4 |               5.8  |
+| nm0700872  | Puri Jagannadh      | Pokiri                                                                |       2006 |          8   |             18 |               5.8  |
+| nm0132709  | Martin Campbell     | Casino Royale                                                         |       2006 |          8   |             16 |               5.92 |
+| nm0000671  | Billy Bob Thornton  | Sling Blade                                                           |       1996 |          8   |              3 |               5.93 |
+| nm0001675  | Robert Rodriguez    | Sin City                                                              |       2005 |          8   |             22 |               5.94 |
+| nm0735879  | Ismael Rodríguez    | Two Careful Fellows                                                   |       1953 |          8   |              2 |               5.95 |
+| nm3607398  | Suseenthiran        | Jeeva                                                                 |       2014 |          8   |              5 |               5.96 |
+| nm0490487  | Wai Keung Lau       | Infernal Affairs                                                      |       2002 |          8   |             21 |               6    |
+
+Full result: `outputs/exploration/q4_one_hit_directors_full/` (CSV)
