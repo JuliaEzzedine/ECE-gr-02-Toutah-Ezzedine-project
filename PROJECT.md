@@ -51,7 +51,16 @@ All later batch steps read the cleaned tables from `data/silver/`.
 
 ## 2. Data exploration
 
-TODO
+```bash
+# Run the 8 exploration queries on the silver tables -> outputs/exploration/
+docker compose run --rm spark python -m src.explore.run
+```
+
+On an 8 GB machine, use 2 cores and more shuffle partitions to avoid running out of memory:
+
+```bash
+SPARK_MASTER="local[2]" SPARK_SHUFFLE_PARTITIONS=200 docker compose run --rm -e SPARK_MASTER -e SPARK_SHUFFLE_PARTITIONS spark python -m src.explore.run
+```
 
 ## 3. Data enrichment
 
@@ -106,7 +115,10 @@ docker compose run --rm spark python -m src.streaming.producer --replay src/stre
 
 ## 5. Open question
 
-TODO
+```bash
+# Are older films rated higher, or is it survivorship bias? -> outputs/open_question.md
+docker compose run --rm spark python -m src.open_question.run
+```
 
 ## Use of AI / LLM tools
 
