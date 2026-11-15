@@ -18,8 +18,14 @@ Outputs:
   data/silver/<table>, data/quarantine/<table>
   outputs/quality_report.csv / outputs/quality_report.md
 
-Usage: python -m src.prep.quality
+Tables whose silver output is already complete (written by a previous run)
+are not recomputed: their report lines are rebuilt from the staging files.
+Use --force to recompute everything.
+
+Usage: python -m src.prep.quality [--force]
 """
+import argparse
+import os
 from dataclasses import dataclass, field
 
 import pandas as pd
@@ -37,6 +43,7 @@ import datetime
 CURRENT_YEAR = datetime.date.today().year
 MAX_LIFESPAN = 120
 MAX_RUNTIME_MINUTES = 24 * 60
+REUSE_DONE = True  # set from the command line in main()
 ARCHIVE_CATEGORIES = ["archive_footage", "archive_sound"]
 
 
@@ -132,7 +139,9 @@ def apply_rules(
 
     keep = output_cols + [r.col for r in rules]
     staging = str(STAGING_DIR / table.replace(".", "_"))
-    df.select(*keep).write.mode("overwrite").parquet(staging)
+    done = REUSE_DONE and is_complete(staging) and is_complete(silver_path(table))
+    if not done:
+        df.select(*keep).write.mode("overwrite").parquet(staging)
     staged = spark.read.parquet(staging)
 
     counts = staged.agg(
@@ -146,6 +155,10 @@ def apply_rules(
     for c in hard:
         is_hard = is_hard | F.col(c)
 
+    if done:
+        print(f"[skip] {table}: silver already complete, report rebuilt from staging")
+        return build_report(table, rules, counts, total, hard)
+
     staged.filter(is_hard).write.mode("overwrite").parquet(
         str(QUARANTINE_DIR / table.replace(".", "_"))
     )
@@ -156,7 +169,15 @@ def apply_rules(
             silver = silver.withColumn(c, F.when(F.col(r.col), None).otherwise(F.col(c)))
     silver = silver.drop(*hard)  # always False in silver
     silver.write.mode("overwrite").parquet(silver_path(table))
+    return build_report(table, rules, counts, total, hard)
 
+
+def is_complete(path) -> bool:
+    """True when a Spark output folder was fully written (has a _SUCCESS file)."""
+    return os.path.exists(os.path.join(str(path), "_SUCCESS"))
+
+
+def build_report(table, rules, counts, total, hard) -> list[dict]:
     report = []
     for r in rules:
         n = counts[r.col] or 0
@@ -357,6 +378,13 @@ def title_akas(spark, title_ids):
 
 # --------------------------------------------------------------------------- #
 def main() -> None:
+    global REUSE_DONE
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--force", action="store_true",
+                        help="recompute every table, even those already in silver")
+    args = parser.parse_args()
+    REUSE_DONE = not args.force
+
     spark = get_spark("imdb-quality")
     report = []
 
