@@ -4,7 +4,51 @@
 
 ### 1.1 Missing values per column
 
-<!-- coller le tableau de outputs/null_report.md -->
+Source: `outputs/null_report.md`. Missing = IMDb null marker `\N` + empty string + absent field (row too short). `Invalid numeric` counts non-numeric text in numeric columns (— for text columns).
+
+| Table | Column | Total rows | Missing | % missing | `\N` | Empty | Absent | Invalid numeric |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| name.basics | nconst | 15,816,005 | 0 | 0.000 | 0 | 0 | 0 | — |
+| name.basics | primaryName | 15,816,005 | 293 | 0.002 | 293 | 0 | 0 | — |
+| name.basics | birthYear | 15,816,005 | 15,130,128 | 95.663 | 15,130,128 | 0 | 0 | 0 |
+| name.basics | deathYear | 15,816,005 | 15,550,475 | 98.321 | 15,550,475 | 0 | 0 | 0 |
+| name.basics | primaryProfession | 15,816,005 | 3,220,639 | 20.363 | 3,220,639 | 0 | 0 | — |
+| name.basics | knownForTitles | 15,816,005 | 1,917,578 | 12.124 | 1,917,578 | 0 | 0 | — |
+| title.akas | titleId | 60,424,702 | 0 | 0.000 | 0 | 0 | 0 | — |
+| title.akas | ordering | 60,424,702 | 0 | 0.000 | 0 | 0 | 0 | 0 |
+| title.akas | title | 60,424,702 | 0 | 0.000 | 0 | 0 | 0 | — |
+| title.akas | region | 60,424,702 | 13,002,884 | 21.519 | 13,002,884 | 0 | 0 | — |
+| title.akas | language | 60,424,702 | 19,665,115 | 32.545 | 19,665,115 | 0 | 0 | — |
+| title.akas | types | 60,424,702 | 40,393,110 | 66.849 | 40,393,110 | 0 | 0 | — |
+| title.akas | attributes | 60,424,702 | 60,107,437 | 99.475 | 60,107,437 | 0 | 0 | — |
+| title.akas | isOriginalTitle | 60,424,702 | 0 | 0.000 | 0 | 0 | 0 | 0 |
+| title.basics | tconst | 12,963,111 | 0 | 0.000 | 0 | 0 | 0 | — |
+| title.basics | titleType | 12,963,111 | 0 | 0.000 | 0 | 0 | 0 | — |
+| title.basics | primaryTitle | 12,963,111 | 0 | 0.000 | 0 | 0 | 0 | — |
+| title.basics | originalTitle | 12,963,111 | 0 | 0.000 | 0 | 0 | 0 | — |
+| title.basics | isAdult | 12,963,111 | 0 | 0.000 | 0 | 0 | 0 | 0 |
+| title.basics | startYear | 12,963,111 | 1,487,320 | 11.473 | 1,487,320 | 0 | 0 | 0 |
+| title.basics | endYear | 12,963,111 | 12,798,642 | 98.731 | 12,798,642 | 0 | 0 | 0 |
+| title.basics | runtimeMinutes | 12,963,111 | 8,050,574 | 62.104 | 8,050,574 | 0 | 0 | 0 |
+| title.basics | genres | 12,963,111 | 548,144 | 4.228 | 548,144 | 0 | 0 | — |
+| title.crew | tconst | 12,960,686 | 0 | 0.000 | 0 | 0 | 0 | — |
+| title.crew | directors | 12,960,686 | 5,791,405 | 44.684 | 5,791,405 | 0 | 0 | — |
+| title.crew | writers | 12,960,686 | 6,432,432 | 49.630 | 6,432,432 | 0 | 0 | — |
+| title.episode | tconst | 10,034,862 | 0 | 0.000 | 0 | 0 | 0 | — |
+| title.episode | parentTconst | 10,034,862 | 0 | 0.000 | 0 | 0 | 0 | — |
+| title.episode | seasonNumber | 10,034,862 | 2,126,237 | 21.189 | 2,126,237 | 0 | 0 | 0 |
+| title.episode | episodeNumber | 10,034,862 | 2,126,237 | 21.189 | 2,126,237 | 0 | 0 | 0 |
+| title.principals | tconst | 102,756,358 | 0 | 0.000 | 0 | 0 | 0 | — |
+| title.principals | ordering | 102,756,358 | 0 | 0.000 | 0 | 0 | 0 | 0 |
+| title.principals | nconst | 102,756,358 | 0 | 0.000 | 0 | 0 | 0 | — |
+| title.principals | category | 102,756,358 | 0 | 0.000 | 0 | 0 | 0 | — |
+| title.principals | job | 102,756,358 | 82,882,023 | 80.659 | 82,882,023 | 0 | 0 | — |
+| title.principals | characters | 102,756,358 | 52,691,057 | 51.278 | 52,691,057 | 0 | 0 | — |
+| title.ratings | tconst | 1,732,169 | 0 | 0.000 | 0 | 0 | 0 | — |
+| title.ratings | averageRating | 1,732,169 | 0 | 0.000 | 0 | 0 | 0 | 0 |
+| title.ratings | numVotes | 1,732,169 | 0 | 0.000 | 0 | 0 | 0 | 0 |
+
+All missing values use the IMDb marker `\N`: no empty string, no truncated row and no invalid number was found. Identifier columns are always filled; the most incomplete columns are optional attributes (`attributes`, `types`, `job`, `characters`) and dates that only apply to some records (`endYear` for series, `deathYear` for people who died).
 
 ### 1.2 Top 5 columns with the most missing values
 
